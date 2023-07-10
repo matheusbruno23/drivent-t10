@@ -1,6 +1,8 @@
 import { AuthenticatedRequest } from "@/middlewares"
-import {Request , Response} from "express"
+import {Response} from "express"
 import httpStatus from "http-status"
+import ticketService from "@/services/tickets-service"
+
 
 
 export async function getTickets(req: AuthenticatedRequest , res:Response){
@@ -16,7 +18,7 @@ export async function getTickets(req: AuthenticatedRequest , res:Response){
 
 export async function getTicketTypes(req: AuthenticatedRequest  , res:Response) {
     try {
-        const ticketType = await ticketService.getTicketTypes()
+        const ticketTypes = await ticketService.getTicketType()
         return res.status(httpStatus.OK).send(ticketTypes)
     } catch (error) {
         return res.sendStatus(httpStatus.NO_CONTENT);
@@ -25,7 +27,7 @@ export async function getTicketTypes(req: AuthenticatedRequest  , res:Response) 
 
 export async function createTicket(req: AuthenticatedRequest  , res:Response) {
     const {userId} = req
-    const {ticketTypeId} = req.body
+    const {ticketTypeId} = req.body 
 
     if(!ticketTypeId) return res.sendStatus(httpStatus.BAD_REQUEST)
 
